@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+          xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+   
+        <!-- Contexto do DispatcherServlet: define a infraestrutura do processamento das requisições feitas ao Servlet (DispatcherServlet) -->
+
+	
+		<bean id="postGresDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+			<property name="jndiName" value="java:comp/env/jdbc/adm" />
+		</bean>
+   		
+        <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+              <property name="persistenceUnitName" value="ADM" />
+              <property name="dataSource" ref="postGresDataSource" />
+              <property name="jpaVendorAdapter"> 
+              	 	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+              </property>
+        </bean>
+        
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+              <property name="entityManagerFactory" ref="entityManagerFactory" />
+        </bean>
+    
+ 
+        <tx:annotation-driven />
+        <!-- Define o pacote base para o escaneamento das anotações de contexto (@Component, @Repository, @Service, @Controller, etc) -->
+        <context:component-scan base-package="br.com.barcadero.adm.core.dao" >
+        	<context:include-filter type="assignable" expression="br.com.barcadero.adm.core.dao.SuperClassDAO"/>
+        </context:component-scan>
+        <context:component-scan base-package="br.com.barcadero.adm.core.role" >
+        	<context:include-filter type="assignable" expression="br.com.barcadero.adm.core.role.SuperClassRole"/>
+        </context:component-scan>
+        <context:component-scan base-package="br.com.barcadero.adm.web.security" />
+        <context:component-scan base-package="br.com.barcadero.adm.rest" />
+        <context:component-scan base-package="br.com.barcadero.adm.web.converters" />
+        <context:component-scan base-package="br.com.barcadero.adm.core.dao" />
+        <context:component-scan base-package="br.com.barcadero.adm.core.role" />
+        <context:annotation-config />
+   
+  </beans>

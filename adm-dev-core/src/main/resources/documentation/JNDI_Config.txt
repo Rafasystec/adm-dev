@@ -1,0 +1,38 @@
+--------------------------------------------------
+Configuração do JNDI
+--------------------------------------------------
+
+No arquivo server.xml do Tomcat acrescente a seguinte linha entre as tags  <GlobalNamingResources>  </GlobalNamingResources>
+
+<Resource auth="Container" driverClassName="org.postgresql.Driver" global="jdbc/petshow" maxActive="100" maxIdle="20" maxWait="10000" minIdle="5" name="jdbc/petshow" password="secrel" type="javax.sql.DataSource" url="jdbc:postgresql://localhost:5432/Petshow?user=postgres" username="postgres"/>
+
+ficando desta forma:
+
+ <GlobalNamingResources>
+    <!-- Editable user database that can also be used by
+         UserDatabaseRealm to authenticate users
+    -->
+    ...//Alguma configuração já existente
+     
+ 	<Resource auth="Container" driverClassName="org.postgresql.Driver" global="jdbc/petshow" maxActive="100" maxIdle="20" maxWait="10000" minIdle="5" name="jdbc/petshow" password="secrel" type="javax.sql.DataSource" url="jdbc:postgresql://localhost:5432/Petshow?user=postgres" username="postgres"/>
+  </GlobalNamingResources>
+
+  Esse aquivo pode ser ser identado da forma como vc preferir, por exemplo, poderiamos ter:
+  <Resource auth="Container" 
+  		driverClassName="org.postgresql.Driver" 
+  		global="jdbc/petshow" 
+  		maxActive="100" 
+  		maxIdle="20" 
+  		maxWait="10000" 
+  		minIdle="5" 
+  		name="jdbc/petshow" 
+  		password="secrel" 
+  		type="javax.sql.DataSource" 
+  		url="jdbc:postgresql://localhost:5432/Petshow?user=postgres" 
+  		username="postgres"/>
+  		
+  	Para ficar mais organizado.
+  	É recomendado fazer isso no projeto Servers do seu eclipse, pois as configurações feitas la 
+  	não iram afetar o tomcat que estar realmente instalado, com isso afetando somente para aquele 
+  	workspace.	
+  	

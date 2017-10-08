@@ -1,0 +1,129 @@
+
+
+1 - As entidades terão os nomes de acordo com a entidade, sem nomenclatura padrão.
+
+Definição dos pacotes:
+
+Dominio por enquando sera: br.com.petshow
+
+br.com.petshow.model -> para as entidades do sistema
+br.com.petshow.dao     -> para as classes de banco de dados
+br.com.petshow.role -> class do negocio
+
+OBS Sempre cria uma dao e um role para cada dao - AlunoRole
+
+Projeto:
+
+2 > Será divido em 2 projetos
+
+a) Projeto WEB
+b) Projeto JPA, Rest e Spring 
+OBS usar JSON para troca de dados.
+
+3 > Github:
+Criar 2 repositorios , um oficila do projjeto e o outro de exemplos e testes.
+
+4 - primeira tarefa e realizar o diagrmada de dados do projeto.
+
+5> entidades do projeto
+
+- Usuario
+- Animal
+- ONG
+- Votacao - Tera a relaçaõ entre animal e usuarios que votaram
+-Adocao
+- Locais
+- Fotos
+- Comentarios
+- EVENTOS
+- CHECK_IN - Relaciona locais, fotos e convidar amigos.
+- ESTABELECIMENTOS
+-ANUNCIO
+-SERVICOS
+-AGENDAMENTOS
+-VENDAS
+
+Salmito criará o diagrama relacional das tabelas e passará pro Rafael verificar se pode ter melhorias
+
+--------------------------------------------------------------------------
+REUNIÃO PETSHOW - 24/11/2016 AS 10:55
+--------------------------------------------------------------------------
+
+@ - NOME DO BANCO DE DADOS: PETSHOW(PODE VIR A MUDAR DEPOIS)
+@ - NOMENCLATURA PADRÃO DO BANCO DE DADOS - OK(OBS: OS CAMPOS SERÃO EM CAIXA ALTA)
+	>> PARA DATA -> DT_NOME_CAMPO - EX.: DT_VENCIMENTO
+	>> PARA HORA -> HR_NOME_CAMPO - EX.: HR_INICIO
+	>> PARA TIPO -> TP_NOME_CAMPO - EX.: TP_CONVENIO
+	>> PARA VALOR-> VL_NOME_CAMPO - EX.: VL_VENDA
+	>> PARA FLAG -> FL_NOME_CAMPO - EX.: FL_USA_CUPOM
+	>> PARA NOME -> NM_NOME_CAMPO - EX.: NM_PAI
+	>> PARA TELEFONE -> TF_NOME_CAMPO - EX.: TF_CELULAR
+TODOS OS CAMPOS TERAM COM CHAVE O CAMPO ID IDENTITY E OS NOMES DAS CHAVES ESTRANGEIRAS SERÁ: ID_NOME_DA_TABELA.
+@ - CONFIGURAÇÃO DO SPRING SE DARÁ POR ANNOTATIONS
+@ - CONEXÃO AO BANCO DE DADOS(VERIFICAR NO PROJETO DE EXEMPLO DO SALMITO)
+@ -  APRESENTAR PADRÃO DAO E ROLE (OK)
+@ - VER QUAL A DIFERENÇA DE USAR @Transactional NA ROLE OU NA DAO.
+@ - RETIRAR DATA E HORA DA CLASSE MÃE ENTIDADE (OK)
+@ - USAR CRITERIA DO HIBERNATE AO INVES DO CRITERIA DO JPA
+@ - PESQUISA O USA CORRETO DO SPRING COM REST(MELHORES PRÁTICAS) 
+>>>>>>>>>>PARA PROXIMA REUNIÃO DO DIA 28/11/2016<<<<<<<<<<<<<<<<<<<<<
+@ - PROXIMAS IMPLEMENTAÇÕES COM JSF (SERÁ DEFINIDA NA REUNIÃO DO SIA 28/11/2016)
+@ - TAREFAS E CRONOGRAMA DO PROJETO
+@ - TERMINAR AS DAO'S , ROLES E ENTIDADES ATE O DIA 28/11/2016
+	
+--------------------------------------------------------------------------------
+Dia 28/11/2016
+--------------------------------------------------------------------------------
+
+@ - Definição da definitiva da arquitetura do projeto.
+	>> Serão 5 projetos
+		1 - PetShow-core (contendo o JPA e o Spring, gerando jar)
+		2 - PetShow-Rest (com o REST, gerando war)
+		3 - PetShow-JSF  (com o JSF , gerando war)
+		4 - Projeto Android (Interface mobile)
+		5 - Projeto IOs
+
+@ - Endereços
+	>> Endereços gravados na propria tabela e com o nome.
+
+@ - PROXIMAS IMPLEMENTAÇÕES COM JSF (SERÁ DEFINIDA NA REUNIÃO DO SIA 28/11/2016)
+	>> Criar login com o Spring Securety. -- Salmito
+	>> Criar Tela principal (Menu dos icones grandes) -- Rafael
+	>> Criar formulario de cadastrar anuncio
+@ - TAREFAS E CRONOGRAMA DO PROJETO
+@ - TERMINAR AS DAO'S , ROLES E ENTIDADES ATE O DIA 28/11/2016
+@ - Fazer projeto na arquitetura funcionando.
+@ - Mudança de residência do Rafael.
+-------------------------------------------------
+Reunião dia 04/12/2016
+-------------------------------------------------
+@ - Padões de programação Role e DAO (OK)
+@ - Exeption (OK)
+@ - Validações (OK)
+
+-------------------------------------------------
+Reunião dia 08/12/2016
+-------------------------------------------------
+@ - Padrão Rest e Hibernate(OK) Usar processo de anuncio como exemplo
+@ - Criar Classe especializada em escreve no console. (OK)
+@ - Uso da parametrizacao das classes parametrizadas (OK) exemplo classe AnuncioRole
+@ - Definir Padrões das telas que são CRUD
+@ - Mostrar componentização do JSF(VER depois)
+@ - Próximas implementações
+-----------------------------------------------------
+ATA:
+
+-------------------------------------------------
+Reunião dia 15/12/2016
+-------------------------------------------------
+@ - Definir Padrões das telas que são CRUD
+@ - Definir o padrão das chamadas rest (Usar a classe AnuncioCallRest como base)(Salmito vai subir)
+@ - Mostrar componentização do JSF(VER depois)
+@ - fazer tela da venda
+@ - Próximas implementações
+
+
+
+
+@ implementações futuras
+ - Verificar horario de verão nas grids
