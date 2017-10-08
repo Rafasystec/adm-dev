@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<script type="text/javascript">
+	    	jQuery(function($){
+	    	   $("input.txtCEP").mask("99999-999", {reverse: true});
+	    	  
+	    	});
+	    </script>
+
+
+	<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target=".navbar-collapse">
+
+				<span class="icon-bar"> 
+				</span>
+				<i style="color:#333" class="fa fa-angle-double-down" aria-hidden="true"></i>
+				<span class="icon-bar"> </span>
+
+			</button>
+		</div>
+
+		<div class="navbar-collapse collapse" style="padding: 0;">
+
+			<pe:tooltip global="true" />
+
+			<div class="nav navbar-nav navbar-left">
+				<p:commandLink id="menu-toggle"
+					styleClass="btn btn-default navbar-toggle">
+					<i class="fa fa-angle-double-left"></i>
+				</p:commandLink>
+			</div>
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<ul class="nav navbar-nav navbar-left menu-top" style="margin: 0;">
+				<li>
+
+					<h4 style="padding-left: 15px; font-variant: small-caps">#{loginBean.userName}</h4>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right menu-top" style="margin: 0;">
+				<ui:remove>
+				<li class="dropdown">
+					<a class="nav-link dropdown-toggle mr-lg-2"	data-toggle="dropdown" href="#"> 
+						<h:panelGroup rendered="#{not notificacoesBean.renderNotificacao}">
+							<i class="fa fa-bell fa-fw"></i>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{notificacoesBean.renderNotificacao}">
+							<i class="fa fa-bell faa-ring animated" style="color: red;"></i>
+            			</h:panelGroup>
+						<i class="fa fa-caret-down"></i>	
+					</a>
+					<ul class="dropdown-menu dropdown-alerts">
+						
+						<li><a href="#{request.contextPath}/private/private-notificacoes.xhtml">
+								<div>
+									<h:panelGroup rendered="#{notificacoesBean.qtMsgNaoLidas == 0}">
+										<i class="fa fa-envelope fa-fw"></i> 
+									</h:panelGroup>
+									<h:panelGroup rendered="#{notificacoesBean.qtMsgNaoLidas > 0}">
+										<i style="color: red;" class="fa fa-envelope faa-horizontal animated"></i>
+									</h:panelGroup>
+									Mensagens 
+									<h:panelGroup rendered="#{notificacoesBean.qtMsgNaoLidas > 0}">
+										<span style="background-color: red !important;" class="badge badge-notify">#{headerBean.qtMsgNaoLidas}</span>
+									</h:panelGroup>	
+								</div>
+								
+								  
+						</a></li>
+						<li><a href="#{request.contextPath}/private/private-adocao-perfil.xhtml">
+								<div>
+									<h:panelGroup rendered="#{notificacoesBean.qtAdocoesPerfil == 0}">
+										<i class="fa fa-heart fa-fw"></i> 
+									</h:panelGroup>
+									<h:panelGroup rendered="#{notificacoesBean.qtAdocoesPerfil > 0}">
+										<i style="color: red;" class="fa fa-heart faa-pulse animated"></i>
+									</h:panelGroup>
+									Adoções no Perfil
+									<h:panelGroup rendered="#{notificacoesBean.qtAdocoesPerfil > 0}">
+										<span style="background-color: red !important;" class="badge badge-notify">#{notificacoesBean.qtAdocoesPerfil}</span>
+									</h:panelGroup>	
+								</div>
+								
+								  
+						</a></li>
+						
+					</ul> 
+				</li>
+				</ui:remove>
+				<!-- /.dropdown-alerts -->
+				
+				<li>
+					<div class="dropdown">
+						<button id="dropdownMenu1" class="btn btn-default dropdown-toggle"
+							type="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="true">
+							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
+							<h:outputText value="#{loginBean.usuario}" />
+							<span class="caret"></span>
+						</button>
+
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><p:link onclick="paceStart();" id="lnk-edit-user"
+									title="Clique aqui para editar os dados do Usuário"
+									outcome="private-usuario">
+									<i class="fa fa-user" aria-hidden="true" />
+				                			#{loginBean.userName}
+				                		</p:link> <pe:tooltip for="lnk-edit-user" /></li>
+							<li role="separator" class="divider"></li>
+							<li><p:commandLink id="btn-sair-adm" onstart="paceStart();"
+									process="@this" title="Sair do sistema - efetuar logout"
+									action="#{loginBean.logout}">
+									<i class="fa fa-sign-out"></i>
+				                			SAIR
+				                		</p:commandLink> <pe:tooltip for="btn-sair-adm" /></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</ui:composition>
+
+</html>

@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition>
+	<!-- Page Content -->
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-4">
+				<!-- perdidos -->
+
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-3">
+								<i class="fa fa-paw fa-5x"></i>
+							</div>
+							<div class="col-xs-9 text-right">
+								<div class="huge">
+									<p:outputLabel
+										value="#{mainPageBean.estatistica.numeroDeAnuncios}" />
+								</div>
+								<div>MEUS PETS</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="panel panel-yellow">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-3">
+								<img class="img-fluid" src="#{request.contextPath}/resources/images/comment-mono.png" />
+							</div>
+							<div class="col-xs-9 text-right">
+								<div class="huge">
+									<p:outputLabel
+										value="#{mainPageBean.estatistica.numeroDeVendas}" />
+								</div>
+								<div>O QUE O PESSOAL ESTÁ FALANDO</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-red">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-3">
+								<i class="fa fa-tags fa-5x"></i>
+							</div>
+							<div class="col-xs-9 text-right">
+								<div class="huge">
+									<p:outputLabel
+										value="#{mainPageBean.estatistica.numeroDeServicos}" />
+								</div>
+								<div>PROMOÇÕES</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<!-- 
+			   <ui:include src="feed-commets-content.xhtml"/>
+			    -->
+			</div>
+		</div>
+
+	</div>
+
+</ui:composition>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<global-method-security secured-annotations="enabled"
+		jsr250-annotations="enabled" />
+
+	<http use-expressions="true" auto-config="true">
+
+
+
+		<form-login login-page="/public/login.xhtml"
+			authentication-failure-url="/public/login.xhtml" />
+		<!-- <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" 
+			/> <custom-filter position="FORM_LOGIN_FILTER" ref="myAuthFilter" /> -->
+		<session-management invalid-session-url="/"
+			session-authentication-error-url="/">
+			<concurrency-control expired-url="/"
+				max-sessions="10" error-if-maximum-exceeded="true" />
+		</session-management>
+		<logout delete-cookies="JSESSIONID" />
+
+
+		<!-- <intercept-url pattern="/pages/**" access="isAuthenticated()" /> -->
+		<!-- ********************************************************* DESCRIÇÃO 
+			DAS CONFIGURAÇÕES ********************************************************* 
+			@ - pattern : Indica o Padrão de URL que será interceptado pelo Spring Security. 
+			A forme de identificação do padrão foi definido pelo atributo path-type. 
+			@ - method : Metodo de requisição que será considerada válida para permitir 
+			o acesso ao recurso. Os valores são GET. DELETE, HEAD, OPTIONS e POST. Por 
+			padrão qualquer método será aceito. @ - acess : Lista separada por vírgula 
+			dos nomes de permissão (ROLE) que serão aceitos para permitir acesso ao recruso. 
+			@ - requires-channel : Permite indicar um protocolo obrigatório para o acesso 
+			ao recurso. Os valores pos´oveis são: any, http e https. O valor padrão é 
+			any <intercept-url pattern="/categorias" access="hasAnyRole('ADMIN', 'GERENTE', 
+			'COORDENADOR') and isAuthenticated()" /> -->
+		
+		<intercept-url pattern="/admin/*"
+			access="isAuthenticated() and hasAnyRole('ADMIN','PETSHOP')" />
+		<intercept-url pattern="/private/**" access="isAuthenticated() and hasAnyRole('ADMIN','PRIVATE')" />
+		<intercept-url pattern="/rest/**" access="isAuthenticated() and hasAnyRole('ADMIN','PETSHOP')"/>
+
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService" />
+	</authentication-manager>
+
+</beans:beans>
+ 

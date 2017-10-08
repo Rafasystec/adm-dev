@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<div id="lightbox" class="ui-widget-overlay">
+		<div class="ui-spinner">
+   			<i style="color: green !important;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+			<span class="sr-only" style="color: red;">Loading...</span>
+		</div>
+   	</div>
+	<!-- Navigation -->
+	<nav class="nav-color navbar navbar-expand-lg navbar-light bg-light fixed-top">
+	
+		<!--  Botoes de cima -->
+		<div class="row">
+			
+
+			<h:form id="formEntrar">
+
+				<p:dialog id="entrarDialog" header="Entrar" widgetVar="edlg"
+					modal="true" showEffect="fade" hideEffect="fade" width="300"
+					resizable="false" responsive="true">
+
+					<p:messages id="entrarMsgsDialog" styleClass="ui-messages-dialog"
+						showSummary="true" showDetail="true" closable="true"
+						showIcon="false" />
+
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row ui-grid-row-custom">
+							<div class="ui-grid-col-12">
+								<div class="inputTextGroupLeft">
+									<p:inputText id="usuario" style="width:100%;" label="Usuário"
+										placeholder="Usuário" title="Usuário"
+										value="#{loginBean.usuario}" required="true">
+									</p:inputText>
+									<i class="fa fa-user"></i>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="ui-grid-col-12">
+								<div class="inputTextGroupLeft">
+									<p:password id="senha" style="width:100%;" label="Senha"
+										placeholder="Senha" title="Senha" value="#{loginBean.senha}"
+										required="true">
+									</p:password>
+									<i class="fa fa-lock"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<f:facet name="footer">
+
+						<p:commandButton id="sair" styleClass="btn btn-default btn-lg"
+							style="margin-right:4px" icon="fa fa-times" value="Sair"
+							process="@this" title="Fecha a janela sem efetuar o login"
+							oncomplete="PF('edlg').hide();" />
+						<pe:tooltip for="sair" />
+
+						<p:commandButton id="confirmar"
+							styleClass="btn btn-entrar btn-lg navbar-btn" icon="fa fa-check"
+							type="submit" action="#{loginBean.login}"
+							title="Informe o usuário e a senha e depois clique neste botão para efetuar o login"
+							value="Confirmar" update="usuario,senha,entrarMsgsDialog"
+							onclick="paceStart();" oncomplete="Pace.restart();" />
+						<pe:tooltip for="confirmar" />
+					</f:facet>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+				</p:dialog>
+
+			</h:form>
+
+			<h:form id="formCadastrar">
+
+				<p:dialog id="cadastrarDialog" header="Cadastrar" widgetVar="cdlg"
+					modal="true" showEffect="fade" hideEffect="fade" width="400"
+					resizable="false" responsive="true">
+
+					<p:messages id="cadastrarMsgsDialog"
+						styleClass="ui-messages-dialog" showSummary="true"
+						showDetail="true" closable="true" showIcon="false" />
+
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row ui-grid-row-custom">
+							<div class="ui-grid-col-12">
+								<div class="inputTextGroupLeft">
+								Quem sou eu?
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row ui-grid-row-custom">
+							<div class="ui-grid-col-12">
+								<div class="inputTextGroupLeft">
+									<p:selectOneRadio value="#{novoUsuarioBean.tipoUsuario}">
+										<f:selectItem itemLabel="PETSHOP" itemValue="P"/>
+										<f:selectItem itemLabel="ONG" 	  itemValue="O"/>
+										<f:selectItem itemLabel="USUÁRIO" itemValue="U"/>
+										<p:ajax update="pnlgFields" listener="#{novoUsuarioBean.renderComponenets}" />
+									</p:selectOneRadio>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h:panelGroup id="pnlgFields">
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row ui-grid-row-custom">
+							<div class="ui-grid-col-12">
+								<div class="inputTextGroupLeft">
+									<h:panelGroup rendered="#{novoUsuarioBean.renderizarNome}">
+										<p:inputText id="usuario" style="width:100%;" label="Usuário"
+											placeholder="#{novoUsuarioBean.textUsuario}" title="Usuário" 
+											value="#{novoUsuarioBean.usuario.nome}" required="true" maxlength="60">
+											<f:validateLength minimum="3" />
+										</p:inputText>
+										<i class="fa fa-user"></i>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid-row ui-grid-row-custom">
+							<div class="ui-grid-col-12">
+								<div class="inputTextGroupLeft">
+									<h:panelGroup rendered="#{novoUsuarioBean.renderizarEmail}">
+										<p:inputText id="email" style="width:100%;" label="E-mail"
+											placeholder="E-mail" title="E-mail" maxlength="50"
+											value="#{novoUsuarioBean.usuario.email}" required="true">
+										</p:inputText>
+										<i class="fa fa-envelope"></i>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid-row ui-grid-row-custom">
+							<div class="ui-grid-col-12">
+								<h:panelGroup  rendered="#{novoUsuarioBean.renderizarCNPJ}">
+									<div class="inputTextGroupLeft">
+										<p:inputText id="txtCNPJ" style="width:100%;" label="CNPJ"
+											value="#{novoUsuarioBean.usuario.cnpjCpf}" placeholder="CNPJ - SOMENTE NÚMEROS"
+											title="CNPJ" required="#{novoUsuarioBean.renderizarCNPJ}" 
+											requiredMessage="O CNPJ neste caso é necessário" maxlength="14"
+											>
+											<f:validator
+												validatorId="br.com.petshow.validator.CnpjValidator" />
+										</p:inputText>
+										<i class="fa fa-cube"></i>
+									</div>
+								</h:panelGroup>
+							</div>
+						</div>
+						<h:panelGroup rendered="#{novoUsuarioBean.renderizarEmail}">
+							<div class="ui-grid-row ui-grid-row-custom">
+								<div class="ui-grid-col-12">
+									<div class="inputTextGroupLeft">
+										<p:password id="senha" style="width:50%;" label="Senha"
+											placeholder="Senha" title="Senha"
+											value="#{novoUsuarioBean.senha}" autocomplete="new-password"
+											required="true" maxlength="14">
+										</p:password>
+										<i class="fa fa-lock"></i>
+									</div>
+								</div>
+							</div>
+							<div class="ui-grid-row ui-grid-row-custom">
+								<div class="ui-grid-col-12">
+									<div class="inputTextGroupLeft">
+										<p:password id="txtConfSenha" style="width:50%;" label="Senha"
+											placeholder="Confirme a senha" title="Senha"
+											value="#{novoUsuarioBean.confSenha}"
+											autocomplete="new-password" required="true" maxlength="14">
+										</p:password>
+										<i class="fa fa-lock"></i>
+									</div>
+								</div>
+							</div>
+						</h:panelGroup>
+					</div>
+					</h:panelGroup>
+					<f:facet name="footer">
+
+						<p:commandButton id="sair" styleClass="btn btn-default btn-lg"
+							style="margin-right:4px" icon="fa fa-times" value="Sair"
+							process="@this" oncomplete="PF('cdlg').hide();" />
+
+						<p:commandButton id="btnConfNovoUsu"
+							styleClass="btn btn-info btn-lg" icon="fa fa-check"
+							value="Confirmar" type="submit"
+							title="Confirme após informar todos os dados"
+							update="cadastrarMsgsDialog"
+							onclick="paceStart();" oncomplete="Pace.restart();"
+							action="#{novoUsuarioBean.solicitarCadastro}" />
+
+					</f:facet>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+				</p:dialog>
+
+			</h:form>
+
+		</div>
+
+		<div class="container" style="max-width: 1400px;">
+			
+						
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<div style="float: left;">
+					<ui:include src="menu-content.xhtml" />
+				</div>
+				<ul class="navbar-nav ml-auto" style="padding-right: 15px;">
+					<li>
+						<a href="./index.xhtml">
+							<i class="fa fa-home fa-2x" aria-hidden="true"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#{request.contextPath}/index.xhtml#quem-somos">Quem somos?</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#{request.contextPath}/index.xhtml#ongs">ONG's</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#{request.contextPath}/index.xhtml#contato">Contate-nos</a>
+					</li>
+				</ul>
+				<h:form id="form" prependId="false">
+					<ul class="navbar-nav ml-auto">
+						<li class="#{loginBean.logado ? 'nao-exibir' : 'exibir'}"
+							style="margin-right: 15px;"><p:commandButton id="entrar"
+								styleClass="btn btn-warning btn-lg navbar-btn" value="Fazer Login"
+								process="@this" 
+								oncomplete="PF('edlg').show();"
+								title="Entrar no sistema de gestão"
+								icon="fa fa-fw fa-user">
+								<p:ajax resetValues="true" />
+								
+							</p:commandButton> <pe:tooltip for="entrar" /></li>
+	
+						<li class="#{loginBean.logado ? 'nao-exibir' : 'exibir'}">
+							<p:commandButton
+								styleClass="btn btn-success btn-lg navbar-btn" id="cadastrar"
+								value="Quero me Cadastrar" process="@this"
+								icon="fa fa-fw fa-user-plus"
+								title="Solicitar cadastro de usuário"
+								oncomplete="PF('cdlg').show();">
+								<p:ajax resetValues="true" />
+							</p:commandButton> <pe:tooltip for="cadastrar" />
+						</li>
+	
+						<li class="#{loginBean.logado ? 'exibir' : 'nao-exibir'}">
+							<i class="fa fa-user" style="color: black;"></i>
+							<p:link outcome="sucessoLoginComumUser" id="lnkAdmArea" title="Voltar para sua área pessoal">
+								<h:outputText style="font-variant: small-caps;font-weight: bold;font-size: 1.5em;" value="#{loginBean.userName}" />
+							</p:link>
+							<pe:tooltip for="lnkAdmArea" />
+						</li>
+	
+						<li class="#{loginBean.logado ? 'exibir' : 'nao-exibir'} nav-item"><p:commandLink styleClass="nav-link"
+								id="sair" title="Sair?" process="@this" style="color: black;"
+								action="#{loginBean.logout}" ajax="false">
+								<i class="fa fa-sign-out"></i>SAIR
+							</p:commandLink> <pe:tooltip for="sair" /></li>
+					</ul>
+				</h:form>
+				
+			</div>
+		</div>
+	</nav>
+</ui:composition>
+
+</html>

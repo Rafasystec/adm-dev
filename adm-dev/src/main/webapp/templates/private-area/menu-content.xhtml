@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+     		<li class="#{onlySmall}">		      		
+           	<p:link  styleClass="#{activeAnuncio}" title="Sua página inical" outcome="private-inicio" onclick="paceStart();">				            			                			
+              		<div class="media media-left-menu">
+              			<div class="media-left">
+              				<i class="fa fa-home"></i>
+              			</div>
+              			<div class="media-body">INÍCIO</div>
+              		</div>
+             		</p:link>
+             		
+     		</li>
+     		<li class="#{onlySmall}">		      		
+           	<p:link  styleClass="#{activeAnuncio}" title="Tarefas e Atividades a realizar" outcome="tarefas" onclick="paceStart();">				            			                			
+              		<div class="media media-left-menu">
+              			<div class="media-left">
+              				<i class="fa fa-bullhorn"></i>
+              			</div>
+              			<div class="media-body">TAREFAS</div>
+              		</div>
+             		</p:link>
+             		
+     		</li>
+     		<li class="#{onlySmall}">		      		
+           	<p:link  styleClass="#{activeAnuncio}" title="Anunciar que seu PET foi perdido" outcome="meu-perfil" onclick="paceStart();">				            			                			
+              		<div class="media media-left-menu">
+              			<div class="media-left">
+              				<i class="fa fa-bullhorn"></i>
+              			</div>
+              			<div class="media-body">PERFIL</div>
+              		</div>
+             		</p:link>
+     		</li>
+     		
+     		<!-- 
+     		<li class="#{onlySmall}">		      		
+           	<p:link  styleClass="#{activeAnuncio}" title="Notificações" outcome="private-meus-animais" onclick="paceStart();">				            			                			
+              		<div class="media media-left-menu">
+              			<div class="media-left">
+              				<i class="fa fa-paw"></i>
+              			</div>
+              			<div class="media-body">MEUS ANIMAIS</div>
+              		</div>
+             		</p:link>
+             		
+     		</li>
+     		 -->
+     		 <div class="col-lg-5 mr-auto" style="width: 250px; height: 250px; padding-top: 10px;">
+				<img  class="img-fluid"	src="#{request.contextPath}/resources/images/software-color-128.png" />
+			</div>				      					      	
+      
+	
+</ui:composition>
+
+</html>
+

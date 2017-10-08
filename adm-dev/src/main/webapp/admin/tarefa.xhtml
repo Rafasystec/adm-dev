@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:clx="http://java.sun.com/jsf/composite/components"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition 
+	 template="../templates/private-area/main.xhtml">
+
+	<ui:param name="activeAnuncio" value="active" />
+	<ui:param name="pageIcon" value="pencil-square-o" />
+	<ui:param name="pageTitle" value="TAREFAS" />
+
+	<ui:define name="header">
+		<h:panelGrid columns="10">
+			<h:commandButton action="#{tarefaBean.novo}" type="submit" value="Novo" update="messages" id="btNovo" styleClass="btn btn-primary"/>
+			<h:commandButton action="#{tarefaBean.salvarTarefa}" type="submit" value="Salvar" update="messages" id="btSalvar" styleClass="btn btn-primary"/>
+			<h:commandButton action="#{tarefaBean.consultarTarefa}"	type="submit" value="Consultar" update="messages" id="btConsultar" styleClass="btn btn-primary"/>
+			<h:commandButton action="#{tarefaBean.cancelar}" type="submit" value="Cancelar" update="messages" id="btCancelar" styleClass="btn btn-primary"/>
+			<h:commandButton action="#{tarefaBean.reabrir}" type="submit" value="Reabrir" update="messages" id="btReabrir" styleClass="btn btn-primary"/>
+			<h:commandButton action="#{tarefaBean.postergar}" 	type="submit" value="Postergar" update="messages" id="btPostergar" styleClass="btn btn-primary"/>
+			<h:commandButton action="#{tarefaBean.finalizar}" type="submit" value="Finalizar" update="messages" id="brFinalizar" styleClass="btn btn-primary"/>	
+			<h:commandButton action="#{tarefaBean.testar}" type="submit" value="Teste de Carga" update="messages" id="btnTesteCarga" styleClass="btn btn-primary"/>
+		</h:panelGrid>	
+	</ui:define>
+	<ui:define name="body">
+			<div class="container">
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="row">
+						<h:outputLabel value="ID:" for="txtID" />
+					</div>
+					<div class="row">
+						<p:inputText id="txtID" value="#{tarefaBean.tarefa.id}" />
+					</div>
+					<div class="row">
+						<h:outputLabel value="Data:" for="txtData" />
+					</div>
+					<div class="row">
+						<p:calendar readonly="true" disabled="true" id="txtInicio"
+							value="#{tarefaBean.tarefa.dataCriacao}"
+							pattern="dd/MM/yyyy HH:mm:ss" />
+					</div>
+					<div class="row">
+						<h:outputLabel value="STATUS:" for="txtStatus" />
+					</div>
+					<div class="row">
+						<p:inputText readonly="true" id="txtStatus"
+							value="#{tarefaBean.tarefa.status}" />
+					</div>
+					<div class="row">
+						<h:outputLabel value="Descreva a tarefa:" for="txtDesc" />
+					</div>
+					<div class="row">
+						<p:inputTextarea rows="6" cols="33" id="txtDesc" style="width:70%"
+							maxlength="6000" value="#{tarefaBean.tarefa.descTarefa}" />
+					</div>
+					<div class="row">
+						<h:outputLabel value="Criador:" for="cbCriador" />
+					</div>
+					<div class="row">
+						<p:selectOneMenu id="cboUsuarioAbertura" value="#{tarefaBean.tarefa.usuarioAbertura}" 
+							required="true"	converter="#{usuarioConverter}">
+							<f:selectItem itemLabel="Selecione o desenvolvedor" itemValue="#{null}"/>
+							<f:selectItems value="#{tarefaBean.all}" var="usuario" itemLabel="#{usuario.nome}" itemValue="#{usuario}"/>
+						</p:selectOneMenu>
+						
+					</div>
+					
+					<div class="row">
+						<h:outputLabel value="Tipo:" for="cbTipo" />
+					</div>
+					<div class="row">
+						<p:selectOneMenu id="cbTipo" value="#{tarefaBean.tarefa.tipo}">
+							<f:selectItem itemLabel="Selecione o tipo" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{tarefaBean.tipos}" />
+						</p:selectOneMenu>
+					</div>
+					<div class="row">
+						<h:outputLabel value="Prioridade:" for="cbPrioridade" />
+					</div>
+					<div class="row">
+						<p:selectOneMenu id="cbPrioridade"
+							value="#{tarefaBean.tarefa.prioridade}">
+							<f:selectItem itemLabel="Selecione a Prioridade" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{tarefaBean.prioridades}" />
+						</p:selectOneMenu>
+					</div>
+					<div class="row">
+						<h:outputLabel value="Alocada:" for="cbAlocada" />
+					</div>
+					<div class="row">
+						<p:selectOneMenu id="cboUsuarioAlocado" value="#{tarefaBean.tarefa.usuarioAlocado}" 
+							required="true"	converter="#{usuarioConverter}">
+							<f:selectItem itemLabel="Selecione o desenvolvedor" itemValue="#{null}"/>
+							<f:selectItems value="#{tarefaBean.all}" var="usuario" itemLabel="#{usuario.nome}" itemValue="#{usuario}"/>
+						</p:selectOneMenu>
+					</div>
+				</div>
+			
+			<div class="col-md-6">
+				<h:outputLabel value="Descreva a observação:" for="txtObs" />
+				<p:inputTextarea rows="6" cols="100" id="txtObs" maxlength="6000" 
+				    value="#{tarefaBean.observacao}" style="width:100%"/>
+			    <h:commandButton action="#{tarefaBean.adicionarObservacao}"
+					type="submit" value="Salvar Observação" update="messages,grid" id="btSalvarObs" />
+				
+				<!-- fotos das evidencias -->
+					
+					<p:fileUpload fileUploadListener="#{tarefaBean.enviaImagem}"
+						update="pnlFotos,msgs" ajax="true" cancelLabel="Cancelar"
+						fileLimit="100000" fileLimitMessage="Imagem muito grande"
+						label="Adicionar Imagens" invalidFileMessage="Tipo de imagem inválido"
+						invalidSizeMessage="Imagem muito grande" uploadLabel="Enviar"
+						multiple="true" auto="true" allowTypes="/(\.|\/)(jpe?g|png)$/">
+		
+					</p:fileUpload>
+		
+					<div id="divFotos" class="ui-grid-row ui-grid-row-custom">
+						<p:panel header="FOTOS" id="pnlFotos">
+							<div class="ui-grid-row">
+								<ui:repeat var="foto" value="#{tarefaBean.tarefa.fotos}">
+									<div class="ui-grid-col-4">
+										<div class="ui-grid-row">
+											<div class="ui-upload-img" style="height: 215px;">
+												<h:graphicImage
+													style="width:100%;height:100%;display:#{foto.isEmpty() ? 'none' : 'inline-block'}"
+													stream="false" cache="false"
+													url="data:image/jpg;base64,#{foto}" id="visualizacao"
+													alt="Visualização do anuncio" />
+												<span
+													style="font-size: 58px; display: #{foto.isEmpty()? 'inline-block': 'none'}"
+													class="fa-stack fa-lg"> <i
+													class="fa fa-camera fa-stack-1x"></i> <i
+													class="fa fa-ban fa-stack-2x text-danger"></i>
+												</span>
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<p:commandButton style="width:100%;height:100%;"
+												actionListener="#{tarefaBean.removePhoto(foto)}"
+												styleClass="btn btn-danger btn-lg" icon="fa fa-trash-o"
+												title="Excluir foto à esquerda" ajax="true" update="@form">
+												<p:confirm header="Confirme a exclusão"
+													message="Você tem certeza que deseja excluir este registro? Só terá efeito após você clicar no botão salvar"
+													icon="fa fa-exclamation-triangle" />
+											</p:commandButton>
+										</div>
+									</div>
+								</ui:repeat>
+							</div>
+						</p:panel>	
+					</div>
+				<!-- fim fotos evidencia -->
+			</div>
+				    
+			</div>
+					<p:dataTable id="grid"
+						var="linha" value="#{tarefaBean.tarefa.observacao}"
+						 style="margin-bottom:0">
+						
+						
+						<p:column headerText="Observações">
+							<h:outputText value="#{linha}" />
+						</p:column>
+						
+					</p:dataTable>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />		
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</html>
+

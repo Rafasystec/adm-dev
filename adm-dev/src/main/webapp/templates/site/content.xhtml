@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+ 	 	
+    <ui:composition>
+        	<div id="content">
+        		<div class="header">
+		        	<div class="row">
+		   				<div class="col-md-6" style="line-height:30px;">
+		        			<span class="titulo"><i class="fa fa-#{pageIcon}"></i> #{pageTitle}</span>
+		        		</div>
+		        		<div class="col-md-6 text-right" style="line-height:30px;">
+			        		<ui:insert name="header" />
+			        	</div>
+		        	</div>
+	        	</div>     
+        		
+        		<h:form id="formContent" enctype="multipart/form-data">  
+        			<p:messages id="msgs" showSummary="true" showDetail="true" closable="true" showIcon="false" />	
+        			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>       	
+   					<ui:insert name="body" />
+   				</h:form>
+   			</div>
+   		
+
+    </ui:composition>
+    
+</html>
